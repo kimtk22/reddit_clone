@@ -21,11 +21,16 @@ public class Subreddit {
     @Id
     @GeneratedValue(strategy = SEQUENCE)
     private Long id;
+    
     private String name;
+    
     private String description;
+    
     @OneToMany(fetch = LAZY)
     private List<Post> posts;
+    
     private Instant createdDate;
+    
     @ManyToOne(fetch = LAZY)
     private Member member;
 }

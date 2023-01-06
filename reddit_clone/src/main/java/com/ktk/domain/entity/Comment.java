@@ -21,10 +21,12 @@ public class Comment {
     @GeneratedValue(strategy = SEQUENCE)
     private Long id;
     private String text;
+    private Instant createdDate;
+    
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "postId", referencedColumnName = "postId")
     private Post post;
-    private Instant createdDate;
+    
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private Member member;

@@ -1,5 +1,11 @@
 package com.ktk.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -13,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ktk.domain.dto.AuthenticationResponse;
 import com.ktk.domain.dto.LoginRequest;
+import com.ktk.domain.dto.RefreshTokenRequest;
 import com.ktk.domain.dto.RegisterRequest;
 import com.ktk.service.AuthService;
+import com.ktk.service.RefreshTokenService;
 
 import lombok.AllArgsConstructor;
 
@@ -24,6 +32,7 @@ import lombok.AllArgsConstructor;
 public class AuthController {
 	
 	private final AuthService authService;
+	private final RefreshTokenService refreshTokenService; 
 	
 	@GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
@@ -42,4 +51,15 @@ public class AuthController {
 		authService.singup(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
+	
+	@PostMapping("/refresh/token")
+    public AuthenticationResponse refreshTokens(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        return authService.refreshToken(refreshTokenRequest);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
+        return ResponseEntity.status(HttpStatus.OK).body("Refresh Token Deleted Successfully!!");
+    }
 }
