@@ -62,42 +62,42 @@ application-dev.properties
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+/angular-reddit-clone/dist
+/angular-reddit-clone/tmp
+/angular-reddit-clone/out-tsc
+/angular-reddit-clone/bazel-out
 
 # Node
-/node_modules
-npm-debug.log
-yarn-error.log
+/angular-reddit-clone/node_modules
+/angular-reddit-clone/npm-debug.log
+/angular-reddit-clone/yarn-error.log
 
 # IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+/angular-reddit-clone/.idea/
+/angular-reddit-clone/.project
+/angular-reddit-clone/.classpath
+/angular-reddit-clone/.c9/
+/angular-reddit-clone/*.launch
+/angular-reddit-clone/.settings/
+/angular-reddit-clone/*.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+/angular-reddit-clone/.vscode/*
+/angular-reddit-clone/!.vscode/settings.json
+/angular-reddit-clone/!.vscode/tasks.json
+/angular-reddit-clone/!.vscode/launch.json
+/angular-reddit-clone/!.vscode/extensions.json
+/angular-reddit-clone/.history/*
 
 # Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+/angular-reddit-clone/.angular/cache
+/angular-reddit-clone/.sass-cache/
+/angular-reddit-clone/connect.lock
+/angular-reddit-clone/coverage
+/angular-reddit-clone/libpeerconnection.log
+/angular-reddit-clone/testem.log
+/angular-reddit-clone/typings
 
 # System files
-.DS_Store
-Thumbs.db
+/angular-reddit-clone/.DS_Store
+/angular-reddit-clone/Thumbs.db
