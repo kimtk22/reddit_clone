@@ -56,3 +56,5 @@ buildNumber.properties
 /.metadata/
 
 application-dev.properties
+
+/postgre_data/
