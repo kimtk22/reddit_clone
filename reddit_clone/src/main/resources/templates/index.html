@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="fragments/commonHead::commonHead"></th:block>
+	<title>Insert title here</title>
+</head>
+<body>
+	<div th:replace="fragments/header::commonHeader"></div>
+	<div class="reddit-body">
+	  <div class="container">
+	    <div class="row">
+	      <hr />
+	      <div class="col-md-9">
+	        <th:block th:replace="/fragments/postTail::postTail(${posts})"></th:block>
+	      </div>
+	      <div class="col-md-3">
+	        <th:block th:replace="/fragments/sideBar::sideBar"></th:block>
+	        <th:block th:replace="/fragments/subredditSideBar::subredditSideBar(${subreddits})"></th:block>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div th:replace="fragments/footer::commonFooter"></div>
+</body>
+</html>

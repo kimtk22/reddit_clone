@@ -40,7 +40,8 @@ public abstract class PostMapper {
     @Mapping(target = "description", source = "description")
 	@Mapping(target = "userName", source = "member.name")
     @Mapping(target = "subredditName", source = "subreddit.name")
-	@Mapping(target = "voteCount", source = "voteCount")
+//	@Mapping(target = "voteCount", source = "voteCount")
+	@Mapping(target = "voteCount", expression = "java(voteCount(post))")
 	@Mapping(target = "commentCount", expression = "java(commentCount(post))")
 	@Mapping(target = "duration", expression = "java(getDuration(post))")
 	public abstract PostResponse mapToDto(Post post);
@@ -48,6 +49,10 @@ public abstract class PostMapper {
 	Integer commentCount(Post post) {
         return commentRepository.findAllByPost(post).size();
     }
+	
+	Integer voteCount(Post post) {
+		return post.getVoteCount() == null ? 0 : post.getVoteCount();
+	}
 
     String getDuration(Post post) {
     	PrettyTime prettyTime = new PrettyTime();

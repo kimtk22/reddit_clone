@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="fragments/commonHead::commonHead"></th:block>
+	<title>Insert title here</title>
+	<script src="https://cdn.tiny.cloud/1/ylwqes7ghbi5emf87whlz9lql23d622vkue70t97nb8e0wqv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body>
+	<div th:replace="fragments/header::commonHeader"></div>
+	<div class="container">
+	  <div class="row">
+	    <hr />
+	    <div class="col-md-9">
+	      <div class="row post">
+	        <div class="col-md-1">
+	          <app-vote-button [post]="post"></app-vote-button>
+	        </div>
+	        <div class="col-md-11">
+	          <span>
+	            <span class="subreddit-text"><a class="post-url" href="">{{post.subredditName}}</a></span>
+	            <span> . Posted
+	              <span> {{post.duration}} </span>
+	              by
+	              <a *ngIf="post.userName === null" class="username" href="">Anonymous</a>
+	              <a *ngIf="post.userName != null" class="username" href="">{{post.userName}}</a>
+	            </span>
+	          </span>
+	          <hr />
+	          <a routerLink="post.url" class="post-title">{{post.postName}}</a>
+	          <div>
+	            <p class="post-text" [innerHtml]="post.description"></p>
+	          </div>
+	          <div class="post-comment">
+	            <form [formGroup]="commentForm" (ngSubmit)="postComment()">
+	              <div class="form-group">
+	                <textarea class="form-control" [formControlName]="'text'" placeholder="Your Thoughts?"></textarea>
+	              </div>
+	              <button type="submit" class="login float-right">Comment</button>
+	            </form>
+	          </div>
+	          <div style="margin-top: 60px;" *ngFor="let comment of comments">
+	            <div class="comment">
+	              <div class="username">
+	                <a href="/user/comment.username">{{comment.userName}}</a>
+	              </div>
+	              <div>
+	                <p>{{comment.duration}}</p>
+	              </div>
+	              <b>{{comment.text}}</b>
+	            </div>
+	            <hr />
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="col-md-3">
+	    	<th:block th:replace="/fragments/sideBar::sideBar"></th:block>
+        	<th:block th:replace="/fragments/subredditSideBar::subredditSideBar"></th:block>
+	    </div>
+	  </div>
+	</div>
+	<div th:replace="fragments/footer::commonFooter"></div>
+</body>
+</html>

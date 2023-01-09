@@ -1,0 +1,32 @@
+<th:block th:fragment="postTail(posts)">
+	<div class="row post" th:each="post : ${posts}">
+	    <div class="col-md-1">
+    		<th:block th:replace="/fragments/voteButton::voteButton(${post.voteCount})"></th:block>
+	    </div>
+	    <div class="col-md-11">
+	        <span class="subreddit-info">
+	            <span class="subreddit-text"><a class="posturl" href="#" th:text="${post.subredditName}">{{post.subredditName}}</a></span>
+	            <span> . Posted by <a class="username" href="/user/{{post.userName}}" th:text="${post.userName}">{{post.userName}}</a></span>
+	            <span th:text="${post.duration}"> . {{post.duration}}</span>
+	        </span>
+	        <hr />
+	        <div class="post-title">
+	            <a class="postname" th:href="@{${post.url}}" th:text="${post.postName}">{{post.postName}}</a>
+	        </div>
+	        <div>
+	            <p class="post-text" th:text="${post.description}">{{post.description}}</p>
+	        </div>
+	        <hr />
+	        <span>
+	            <a class="btnCommments" role="button">
+	                <fa-icon [icon]="faComments"></fa-icon>
+	                <span th:text="|Comments(${post.commentCount})|">Comments({{post.commentNum}})</span>
+	            </a>
+	            <a></a>
+	            <button class="login">
+	                Read Post
+	            </button>
+	        </span>
+	    </div>
+	</div>
+</th:block>
