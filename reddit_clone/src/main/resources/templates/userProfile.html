@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-	<div th:replace="fragments/header::commonHeader"></div>
+	<div th:replace="fragments/header::commonHeader(${user})"></div>
 	<div class="container">
 	  <div>
 	    Welcome <b>{{name}}</b>.<br /> You have posted <b>{{postLength}}</b> time(s) and commented

@@ -6,7 +6,7 @@
 	<script src="https://cdn.tiny.cloud/1/ylwqes7ghbi5emf87whlz9lql23d622vkue70t97nb8e0wqv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body>
-	<div th:replace="fragments/header::commonHeader"></div>
+	<div th:replace="fragments/header::commonHeader(${user})"></div>
 	<div class="container">
 	  <div class="row">
 	    <hr />

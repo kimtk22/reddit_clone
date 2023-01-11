@@ -1,4 +1,4 @@
-<header th:fragment="commonHeader">
+<header th:fragment="commonHeader(user)">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-around">
 		<div>
 			<a aria-label="Home" class="logo" href="/"> <svg
@@ -14,17 +14,23 @@
 			</a>
 		</div>
 		<div>
-			<div class="dropdown">
+			<div class="dropdown" th:unless="${user == nul}">
 			  <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			    <img class="account-icon" src="https://www.redditstatic.com/avatars/avatar_default_08_D4E815.png" />
-			    {{username}}
+			    <span th:text="${user.Username}"></span>
 			  </button>
 			  <ul class="dropdown-menu">
-			    <li><a class="dropdown-item" href="#">Profile</a></li>
-			    <li><a class="dropdown-item" href="#">Logout</a></li>
+			    <li>
+			    	<a class="dropdown-item" href="#">Profile</a>
+		    	</li>
+			    <li>
+			    	<form method="post" action="/logout">
+			    		<button class="dropdown-item" >Logout</button>
+			    	</form>
+		    	</li>
 			  </ul>
 			</div>
-			<div>
+			<div th:if="${user == null}">
 				<a href="/signup" class="float-right sign-up mr-2">Sign up</a> 
 				<a href="/login" class="float-right login mr-2">Login</a>
 			</div>

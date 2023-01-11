@@ -24,7 +24,7 @@ import com.ktk.domain.dto.AuthenticationResponse;
 import com.ktk.domain.dto.LoginRequest;
 import com.ktk.domain.dto.RefreshTokenRequest;
 import com.ktk.domain.dto.RegisterRequest;
-import com.ktk.service.AuthService;
+import com.ktk.service.JwtAuthService;
 import com.ktk.service.RefreshTokenService;
 
 import lombok.AllArgsConstructor;
@@ -32,9 +32,9 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
-public class AuthController {
+public class JwtAuthController {
 	
-	private final AuthService authService;
+	private final JwtAuthService authService;
 	private final RefreshTokenService refreshTokenService; 
 	
 	@GetMapping("accountVerification/{token}")

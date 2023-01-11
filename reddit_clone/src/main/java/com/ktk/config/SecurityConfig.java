@@ -1,6 +1,7 @@
 package com.ktk.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,7 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,19 +30,49 @@ public class SecurityConfig{
 	@Autowired
 	private JwtAuthenticationFilter authenticationFilter;
 	
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//		http
+//			.httpBasic().disable()
+//			.csrf().disable()
+//			.authorizeHttpRequests()
+//				.antMatchers("/api/auth/**")
+//				.permitAll()
+//			.anyRequest()
+////				.authenticated();
+//				.permitAll();
+//		
+//		http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//		
+//		return http.build();
+//	}
+	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
+	
+	@Bean
+	public SecurityFilterChain securityFilterChainFormLogin(HttpSecurity http) throws Exception {
 		http
-			.httpBasic().disable()
 			.csrf().disable()
 			.authorizeHttpRequests()
-				.antMatchers("/api/auth/**")
-				.permitAll()
+				.antMatchers("/api/auth/**").permitAll()
+				.antMatchers("/signup").permitAll()
+				.antMatchers("/").permitAll()
 			.anyRequest()
-//				.authenticated();
-				.permitAll();
-		
-		http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+				.authenticated()
+			.and()
+				.formLogin()
+				.loginPage("/login")
+				.usernameParameter("email")
+				.defaultSuccessUrl("/", true)
+				.permitAll()
+			.and()
+				.logout()
+				.logoutUrl("/logout")
+				.logoutSuccessUrl("/")
+				.deleteCookies("JSESSIONID");
 		
 		return http.build();
 	}

@@ -28,15 +28,15 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PostService {
 	private final PostMapper postMapper;
-	private final AuthService authService;
+	private final JwtAuthService authService;
 	private final PostRepository postRepository;
 	private final VoteRepository voteRepository;
 	private final MemberRepository memberRepository;
 	private final SubredditRepository subredditRepository;
 	
-	
+	@Transactional
 	public List<PostResponse> getAllPost(){
-		return postRepository.findAll().stream()
+		return postRepository.findALLByOrderByCreatedDateDesc().stream()
 								.map(postMapper::mapToDto)
 								.collect(Collectors.toList());
 	}

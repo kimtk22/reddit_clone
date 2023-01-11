@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-	<div th:replace="fragments/header::commonHeader"></div>
+	<div th:replace="fragments/header::commonHeader(${null})"></div>
 	<div class="login-section">
 	    <div class="row justify-content-center">
 	        <div class="col-md-3"></div>
@@ -14,7 +14,10 @@
 	            <div class="card">
 	                <div class="card-header" style="text-align: center"><h4>Login</h4></div>
 	                <div class="card-body">
-	                    <form method="post" action="/api/auth/login">
+	                	<div class="alert alert-danger" role="alert" th:if="${error != null}">
+						  Login Failed. Please check your credentials and try again.
+						</div>
+	                    <form method="post" action="/login">
 	                        <div class="form-group row">
 	                            <label for="user_name" class="col-md-4 col-form-label text-md-right">Email</label>
 	                            <div class="col-md-6">
@@ -28,14 +31,13 @@
 	                                <input type="password" id="password" class="form-control" name="password">
 	                            </div>
 	                        </div>
-	                        <span class="col-md-6 offset-md-4">
-	                            <button type="submit" class="login">
-	                                Login
-	                            </button>
-	                            <span style="padding-left: 15px">New to SpringReddit? <a href="/signup">SIGN UP</a></span>
-	                        </span>   
-	                        <div class="login-failed" style="display: none;">
-	                             <p class="login-failed-text">Login Failed. Please check your credentials and try again.</p>   
+	                        <div class="form-group row">
+		                        <span class="col-md-6 offset-md-4">
+		                            <button type="submit" class="login">
+		                                Login
+		                            </button>
+		                            <span style="padding-left: 15px">New to SpringReddit? <a href="/signup">SIGN UP</a></span>
+		                        </span>
 	                        </div>
 	                    </form>
 	                </div>

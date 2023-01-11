@@ -11,10 +11,11 @@
 	        </span>
 	        <hr />
 	        <div class="post-title">
-	            <a class="postname" th:href="@{${post.url}}" th:text="${post.postName}">{{post.postName}}</a>
+	            <!-- <a class="postname" th:href="@{${post.url}}" th:text="${post.postName}">{{post.postName}}</a> -->
+	            <span class="postname" th:text="${post.postName}"></span>
 	        </div>
 	        <div>
-	            <p class="post-text" th:text="${post.description}">{{post.description}}</p>
+	            <p class="post-text" th:utext="${post.description}">{{post.description}}</p>
 	        </div>
 	        <hr />
 	        <span>

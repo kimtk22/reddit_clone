@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-	<div th:replace="fragments/header::commonHeader"></div>
+	<div th:replace="fragments/header::commonHeader(${user})"></div>
 	<div class="container">
 	  <div class="row">
 	    <div class="create-subreddit-container col-md-9">

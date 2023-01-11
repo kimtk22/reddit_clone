@@ -2,16 +2,23 @@ package com.ktk.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ktk.domain.dto.PostRequest;
 import com.ktk.domain.dto.PostResponse;
+import com.ktk.domain.dto.RegisterRequest;
 import com.ktk.domain.dto.SubredditDto;
+import com.ktk.service.JwtAuthService;
 import com.ktk.service.PostService;
 import com.ktk.service.SubredditService;
 
@@ -23,9 +30,11 @@ public class ViewController {
 	
 	private final PostService  postService;
 	private final SubredditService subredditService;
+	private final JwtAuthService authService;
 	
-	@GetMapping
-	public ModelAndView main(ModelAndView mav) {
+	@GetMapping("/")
+	public ModelAndView main(@AuthenticationPrincipal User user, ModelAndView mav) {
+		
 		mav.setViewName("index");
 		
 		List<PostResponse> posts = postService.getAllPost();
@@ -33,18 +42,44 @@ public class ViewController {
 		
 		mav.addObject("posts", posts);
 		mav.addObject("subreddits", subreddits);
+		mav.addObject("user", user);
 		return mav;
 	}
 	
 	@GetMapping("/signup")
-	public ModelAndView signup(ModelAndView mav) {
-		mav.setViewName("signup");
+	public ModelAndView signup(@AuthenticationPrincipal User user, ModelAndView mav) {
+		String viewName = "";
+		
+		if(user == null) {
+			viewName = "signup";
+		}else {
+			viewName = "redirect:/";
+		}
+		
+		mav.setViewName(viewName);
+		
+		return mav;
+	}
+	
+	@PostMapping("/signup")
+	public ModelAndView signup(@ModelAttribute RegisterRequest request, ModelAndView mav) {
+		authService.singup(request);
+		mav.setViewName("redirect:/login");
 		return mav;
 	}
 	
 	@GetMapping("/login")
-	public ModelAndView login(ModelAndView mav) {
-		mav.setViewName("login");
+	public ModelAndView login(@AuthenticationPrincipal User user, @RequestParam(required = false) String error, ModelAndView mav) {
+		String viewName = "";
+		
+		if(user == null) {
+			viewName = "login";
+			mav.addObject("error", error);
+		}else {
+			viewName = "redirect:/";
+		}
+		
+		mav.setViewName(viewName);
 		return mav;
 	}
 	

@@ -33,7 +33,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AuthService {
+public class JwtAuthService {
 	
 	private final MailService mailService;
 	private final JwtProvider jwtProvider;

@@ -6,14 +6,14 @@
 	<script src="https://cdn.tiny.cloud/1/ylwqes7ghbi5emf87whlz9lql23d622vkue70t97nb8e0wqv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body>
-	<div th:replace="fragments/header::commonHeader"></div>
+	<div th:replace="fragments/header::commonHeader(${user})"></div>
 	<div class="container">
 	  <div class="row">
 	    <hr />
 	    <div class="col-md-9">
 	      <div class="row post">
 	        <div class="col-md-1">
-	          <app-vote-button [post]="post"></app-vote-button>
+	          <!-- <th:block th:replace="/fragments/voteButton::voteButton(${post.voteCount})"></th:block> -->
 	        </div>
 	        <div class="col-md-11">
 	          <span>
@@ -55,7 +55,7 @@
 	    </div>
 	    <div class="col-md-3">
 	    	<th:block th:replace="/fragments/sideBar::sideBar"></th:block>
-        	<th:block th:replace="/fragments/subredditSideBar::subredditSideBar"></th:block>
+        	<th:block th:replace="/fragments/subredditSideBar::subredditSideBar(${subreddits})"></th:block>
 	    </div>
 	  </div>
 	</div>

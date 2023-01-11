@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class CommentService {
-	private final AuthService authService;
+	private final JwtAuthService authService;
 	private final CommentMapper commentMapper;
 	private final PostRepository postRepository;
 	private final MemberRepository memberRepository;
