@@ -13,40 +13,39 @@
 	    <div class="col-md-9">
 	      <div class="row post">
 	        <div class="col-md-1">
-	          <!-- <th:block th:replace="/fragments/voteButton::voteButton(${post.voteCount})"></th:block> -->
+	          <th:block th:replace="/fragments/voteButton::voteButton(${post.voteCount})"></th:block>
 	        </div>
 	        <div class="col-md-11">
 	          <span>
-	            <span class="subreddit-text"><a class="post-url" href="">{{post.subredditName}}</a></span>
+	            <span class="subreddit-text"><a class="post-url" href="" th:text="${post.subredditName}">{{post.subredditName}}</a></span>
 	            <span> . Posted
-	              <span> {{post.duration}} </span>
+	              <span th:text="${post.duration}"> {{post.duration}} </span>
 	              by
-	              <a *ngIf="post.userName === null" class="username" href="">Anonymous</a>
-	              <a *ngIf="post.userName != null" class="username" href="">{{post.userName}}</a>
+	              <a class="username" href="" th:text="${post.userName}"></a>
 	            </span>
 	          </span>
 	          <hr />
-	          <a routerLink="post.url" class="post-title">{{post.postName}}</a>
+	          <a href="post.url" class="post-title" th:text="${post.postName}">{{post.postName}}</a>
 	          <div>
-	            <p class="post-text" [innerHtml]="post.description"></p>
+	            <p class="post-text" th:utext="${post.description}"></p>
 	          </div>
 	          <div class="post-comment">
-	            <form [formGroup]="commentForm" (ngSubmit)="postComment()">
+	            <form >
 	              <div class="form-group">
-	                <textarea class="form-control" [formControlName]="'text'" placeholder="Your Thoughts?"></textarea>
+	                <textarea class="form-control" placeholder="Your Thoughts?"></textarea>
 	              </div>
 	              <button type="submit" class="login float-right">Comment</button>
 	            </form>
 	          </div>
-	          <div style="margin-top: 60px;" *ngFor="let comment of comments">
-	            <div class="comment">
+	          <div style="margin-top: 60px;">
+	            <div class="comment" th:each="comment : ${comments}">
 	              <div class="username">
-	                <a href="/user/comment.username">{{comment.userName}}</a>
+	                <a href="/user/comment.username" th:text="${comment.userName}">{{comment.userName}}</a>
 	              </div>
 	              <div>
-	                <p>{{comment.duration}}</p>
+	                <p th:text="${comment.duration}">{{comment.duration}}</p>
 	              </div>
-	              <b>{{comment.text}}</b>
+	              <b th:text="${comment.text}">{{comment.text}}</b>
 	            </div>
 	            <hr />
 	          </div>

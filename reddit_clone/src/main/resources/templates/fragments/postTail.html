@@ -24,9 +24,9 @@
 	                <span th:text="|Comments(${post.commentCount})|">Comments({{post.commentNum}})</span>
 	            </a>
 	            <a></a>
-	            <button class="login">
+	            <a class="login" th:href="@{'/detailPost/' + ${post.id}}">
 	                Read Post
-	            </button>
+	            </a>
 	        </span>
 	    </div>
 	</div>

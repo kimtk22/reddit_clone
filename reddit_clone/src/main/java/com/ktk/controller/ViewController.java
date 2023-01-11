@@ -9,15 +9,18 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ktk.domain.dto.CommentDto;
 import com.ktk.domain.dto.PostRequest;
 import com.ktk.domain.dto.PostResponse;
 import com.ktk.domain.dto.RegisterRequest;
 import com.ktk.domain.dto.SubredditDto;
+import com.ktk.service.CommentService;
 import com.ktk.service.JwtAuthService;
 import com.ktk.service.PostService;
 import com.ktk.service.SubredditService;
@@ -29,8 +32,9 @@ import lombok.RequiredArgsConstructor;
 public class ViewController {
 	
 	private final PostService  postService;
-	private final SubredditService subredditService;
 	private final JwtAuthService authService;
+	private final CommentService commentService;
+	private final SubredditService subredditService;
 	
 	@GetMapping("/")
 	public ModelAndView main(@AuthenticationPrincipal User user, ModelAndView mav) {
@@ -113,8 +117,14 @@ public class ViewController {
 		return mav;
 	}
 	
-	@GetMapping("/detailPost")
-	public ModelAndView detailPost(ModelAndView mav) {
+	@GetMapping("/detailPost/{postId}")
+	public ModelAndView detailPost(@PathVariable Long postId, ModelAndView mav) {
+		PostResponse post = postService.getPostById(postId);
+		List<CommentDto> comments = commentService.getAllByPostId(postId);
+		
+		mav.addObject("post", post);
+		mav.addObject("comments", comments);
+		
 		mav.setViewName("detailPost");
 		return mav;
 	}
