@@ -30,6 +30,22 @@ public class SecurityConfig{
 	@Autowired
 	private JwtAuthenticationFilter authenticationFilter;
 	
+	
+	private static final String[] PERMIT_URL_ARRAY = {
+            /* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            /* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
+
+	
 //	@Bean
 //	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //		http
@@ -49,7 +65,9 @@ public class SecurityConfig{
 	
 	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        return (web) -> web.ignoring()
+        					.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+        					.antMatchers(PERMIT_URL_ARRAY);
     }
 	
 	@Bean
@@ -62,6 +80,7 @@ public class SecurityConfig{
 				.antMatchers("/").permitAll()
 			.anyRequest()
 				.authenticated()
+//				.permitAll()
 			.and()
 				.formLogin()
 				.loginPage("/login")

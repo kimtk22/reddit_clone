@@ -2,10 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="fragments/commonHead::commonHead"></th:block>
+	<script type="text/javascript" src="/js/index.js"></script>
 	<title>Insert title here</title>
 </head>
 <body>
 	<div th:replace="fragments/header::commonHeader(${user})"></div>
+	
+	<button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+	
 	<div class="reddit-body">
 	  <div class="container">
 	    <div class="row">

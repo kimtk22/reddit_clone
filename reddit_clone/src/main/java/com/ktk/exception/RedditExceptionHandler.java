@@ -11,4 +11,9 @@ public class RedditExceptionHandler {
 	public ResponseEntity<?> notFoundException(RedditException ex){
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ExceptionResponse(ex.getMessage(), 500));
 	}
+	
+	@ExceptionHandler(value = voteException.class)
+	public ResponseEntity<?> notFoundException(voteException ex){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponse(ex.getMessage(), 400));
+	}
 }

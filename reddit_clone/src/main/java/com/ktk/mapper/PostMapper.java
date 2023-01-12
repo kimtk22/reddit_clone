@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ktk.domain.dto.PostRequest;
 import com.ktk.domain.dto.PostResponse;
+import com.ktk.domain.dto.VoteResponse;
 import com.ktk.domain.entity.Member;
 import com.ktk.domain.entity.Post;
 import com.ktk.domain.entity.Subreddit;
@@ -45,6 +46,8 @@ public abstract class PostMapper {
 	@Mapping(target = "commentCount", expression = "java(commentCount(post))")
 	@Mapping(target = "duration", expression = "java(getDuration(post))")
 	public abstract PostResponse mapToDto(Post post);
+	
+	public abstract VoteResponse mapToVoteResponse(Post post);
 	
 	Integer commentCount(Post post) {
         return commentRepository.findAllByPost(post).size();

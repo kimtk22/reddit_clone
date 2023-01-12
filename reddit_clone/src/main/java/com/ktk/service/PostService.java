@@ -10,12 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ktk.domain.dto.PostRequest;
 import com.ktk.domain.dto.PostResponse;
 import com.ktk.domain.dto.VoteDto;
+import com.ktk.domain.dto.VoteResponse;
 import com.ktk.domain.entity.Member;
 import com.ktk.domain.entity.Post;
 import com.ktk.domain.entity.Subreddit;
 import com.ktk.domain.entity.Vote;
 import com.ktk.domain.entity.VoteType;
 import com.ktk.exception.RedditException;
+import com.ktk.exception.voteException;
 import com.ktk.mapper.PostMapper;
 import com.ktk.repository.MemberRepository;
 import com.ktk.repository.PostRepository;
@@ -71,30 +73,35 @@ public class PostService {
                 .collect(Collectors.toList());
     }
     
-    public void vote(VoteDto voteDto) {
+    public VoteResponse vote(VoteDto voteDto) {
     	Post post = postRepository.findById(voteDto.getPostId())
 				.orElseThrow(() -> new RedditException("Not Found post with post id - " + voteDto.getPostId()));
     	
-    	Optional<Vote> vote = voteRepository.findTopByPostAndMemberOrderByVoteIdDesc(post, authService.getCurrentMember());
+    	Member member = authService.getCurrentMember();
+    	
+    	Optional<Vote> vote = voteRepository.findTopByPostAndMemberOrderByVoteIdDesc(post, member);
     	
     	if(vote.isPresent() && vote.get().getVoteType().equals(voteDto.getVoteType())) {
-    		throw new RedditException("You have already " + voteDto.getVoteType() + " 'd for this post");
+    		throw new voteException("You have already " + voteDto.getVoteType() + "'d for this post");
     	}
     	
     	Integer voteCount = post.getVoteCount() == null ? 0 : post.getVoteCount();
-    	if(VoteType.UPVOTE.equals(voteDto.getVoteType())) {
+    	if(VoteType.UP.equals(voteDto.getVoteType())) {
     		post.setVoteCount(voteCount + 1);
     	}else {
     		post.setVoteCount(voteCount - 1);
     	}
     	
     	postRepository.save(post);
-    	voteRepository.save(mapToVote(voteDto, post));
+    	voteRepository.save(mapToVote(voteDto, post, member));
+    	
+    	return postMapper.mapToVoteResponse(post);
     }
     
-    private Vote mapToVote(VoteDto voteDto, Post post) {
+    private Vote mapToVote(VoteDto voteDto, Post post, Member member) {
     	return Vote.builder()
     				.voteType(voteDto.getVoteType())
+    				.member(member)
     				.post(post)
     				.build();
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ktk.domain.dto.PostRequest;
 import com.ktk.domain.dto.PostResponse;
 import com.ktk.domain.dto.VoteDto;
+import com.ktk.domain.dto.VoteResponse;
 import com.ktk.service.PostService;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +27,11 @@ import lombok.AllArgsConstructor;
 public class PostController {
 	
 	private final PostService postService;
+	
+	@GetMapping("/test")
+	public String test(){
+		return "It is test!!";
+	}
 	
 	@GetMapping
 	public List<PostResponse> getAllPosts(){
@@ -54,9 +60,9 @@ public class PostController {
     }
 	
 	@PostMapping("/vote")
-    public ResponseEntity<Void> vote(@RequestBody VoteDto voteDto) {
-        postService.vote(voteDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<VoteResponse> vote(@RequestBody VoteDto voteDto) {
+        VoteResponse voteResponse = postService.vote(voteDto);
+        return ResponseEntity.ok(voteResponse);
     }
 	
 }
