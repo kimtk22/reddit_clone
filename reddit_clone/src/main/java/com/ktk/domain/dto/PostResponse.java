@@ -8,6 +8,7 @@ public class PostResponse {
 	 private String postName;
 	 private String url;
 	 private String description;
+	 private String userId;
 	 private String userName;
 	 private String subredditName;
 	 private Integer voteCount;

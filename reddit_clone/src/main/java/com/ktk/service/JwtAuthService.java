@@ -112,10 +112,20 @@ public class JwtAuthService {
     }
     
     public Member getCurrentMember() {
-    	User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	return memberRepository.findByEmail(principal.getUsername())
-    							.orElseThrow(() -> new UsernameNotFoundException("user name not found - " + principal.getUsername()));
-    	
+    	try {
+    		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    		return memberRepository.findByEmail(principal.getUsername())
+    				.orElseThrow(() -> new UsernameNotFoundException("user name not found - " + principal.getUsername()));
+    	}catch(ClassCastException ex){
+    		return null;
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    		throw new RedditException("getCurrentMember Error...");
+    	}
+    }
+    
+    public Member getMemberById(Long memberId) {
+    	return memberRepository.findById(memberId).orElseThrow(() -> new RedditException("User Not Found with id - " + memberId));
     }
     
     public AuthenticationResponse refreshToken(RefreshTokenRequest request) {

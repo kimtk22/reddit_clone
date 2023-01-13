@@ -67,7 +67,7 @@ public class PostService {
     public List<PostResponse> getPostsByUsername(String username) {
         Member member = memberRepository.findByName(username)
                 .orElseThrow(() -> new RedditException(username));
-        return postRepository.findByMember(member)
+        return postRepository.findByMemberOrderByCreatedDateDesc(member)
                 .stream()
                 .map(postMapper::mapToDto)
                 .collect(Collectors.toList());

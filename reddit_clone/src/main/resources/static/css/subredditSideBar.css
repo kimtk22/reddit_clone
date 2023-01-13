@@ -1,6 +1,6 @@
 .sidebar-view-subreddit {
   width: 312px;
-  height: 242px;
+  /* height: 242px; */
   --post-line-color: #ccc;
   border: 1px solid #ccc;
   margin-bottom: 10px;
@@ -15,5 +15,5 @@
 }
 
 .sidebar-view-subreddit {
-  height: 280px;
+  /* height: 280px; */
 }

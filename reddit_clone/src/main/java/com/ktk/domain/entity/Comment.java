@@ -22,6 +22,10 @@ public class Comment {
     private Long id;
     private String text;
     private Instant createdDate;
+    private Long groupId;
+    
+    @Enumerated(value = EnumType.STRING)
+    private CommentLayer layer;
     
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "postId", referencedColumnName = "postId")

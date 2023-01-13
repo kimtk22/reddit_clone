@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class SubredditService {
 	private final SubredditRepository subredditRepository;
 	private final SubredditMapper subredditMapper;
-//	private final AuthService authService; 
+	private final JwtAuthService authService; 
 	
 	public List<SubredditDto> getAll(){
 		return subredditRepository.findAll()
@@ -32,9 +32,9 @@ public class SubredditService {
 	
 	@Transactional
     public SubredditDto save(SubredditDto subredditDto) {
-//        Subreddit subreddit = subredditRepository.save(mapToSubreddit(subredditDto));
-        Subreddit subreddit = subredditRepository.save(subredditMapper.mapDtoToSubReddit(subredditDto));
-        subredditDto.setId(subreddit.getId());
+		Subreddit subreddit = subredditMapper.mapDtoToSubReddit(subredditDto, authService.getCurrentMember());
+        Subreddit savedSubreddit = subredditRepository.save(subreddit);
+        subredditDto.setId(savedSubreddit.getId());
         return subredditDto;
     }
 	
@@ -46,22 +46,4 @@ public class SubredditService {
         return subredditMapper.mapSubredditToDto(subreddit); 
     }
 	
-	
-//	private SubredditDto mapToDto(Subreddit subreddit) {
-//		return SubredditDto.builder()
-//							.id(subreddit.getId())
-//							.name(subreddit.getName())
-//							.description(subreddit.getDescription())
-//							.postCount(subreddit.getPosts().size())
-//							.build();
-//	}
-//	
-//	private Subreddit mapToSubreddit(SubredditDto dto) {
-//		return Subreddit.builder()
-//						.name(dto.getName())
-//						.description(dto.getDescription())
-//						.createdDate(Instant.now())
-//						.member(authService.getCurrentMember())
-//						.build();
-//	}
 }

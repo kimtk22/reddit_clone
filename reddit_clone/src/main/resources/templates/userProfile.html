@@ -2,30 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="fragments/commonHead::commonHead"></th:block>
+	<script type="text/javascript" src="/js/userProfile.js"></script>
 	<title>Insert title here</title>
-	<link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 	<div th:replace="fragments/header::commonHeader(${user})"></div>
 	<div class="container">
 	  <div>
-	    Welcome <b>{{name}}</b>.<br /> You have posted <b>{{postLength}}</b> time(s) and commented
-	    <b>{{commentLength}}</b> time(s).
+	    Welcome <b th:text="${member.name}">{{name}}</b>.<br /> You have posted <b th:text="${posts.size()}">{{postLength}}</b> time(s) and commented
+	    <b th:text="${comments.size()}">{{commentLength}}</b> time(s).
 	    You can check your post and comment history below.
 	  </div>
 	  <hr />
 	  <div>
 	    Your Posts:
 	  </div>
-	  <app-post-tile [posts]="posts"></app-post-tile>
+  		<th:block th:replace="/fragments/postTail::postTail(${posts})"></th:block>
 	  <hr />
-	  <div>
+	  <!-- <div>
 	    Your Comments:
 	  </div>
-	  <div *ngFor="let comment of comments">
+	  <div>
 	    <div class="comment">
 	      <div class="username">
-	        <a routerLink="/user/comment.username">{{comment.userName}}</a>
+	        <a href="/user/comment.username">{{comment.userName}}</a>
 	      </div>
 	      <div>
 	        <p>{{comment.duration}}</p>
@@ -33,7 +33,7 @@
 	      <b>{{comment.text}}</b>
 	    </div>
 	    <hr />
-	  </div>
+	  </div> -->
 	</div>
 	<div th:replace="fragments/footer::commonFooter"></div>
 </body>

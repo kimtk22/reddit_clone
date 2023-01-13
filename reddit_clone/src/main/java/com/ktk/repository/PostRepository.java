@@ -14,5 +14,5 @@ import com.ktk.domain.entity.Subreddit;
 public interface PostRepository extends JpaRepository<Post, Long>{
 	List<Post> findAllBySubreddit(Subreddit subreddit);
     List<Post> findALLByOrderByCreatedDateDesc();
-    List<Post> findByMember(Member member);
+    List<Post> findByMemberOrderByCreatedDateDesc(Member member);
 }

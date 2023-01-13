@@ -17,7 +17,7 @@
 			<div class="dropdown" th:unless="${user == nul}">
 			  <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			    <img class="account-icon" src="https://www.redditstatic.com/avatars/avatar_default_08_D4E815.png" />
-			    <span th:text="${user.Username}"></span>
+			    <span th:text="${user.email}"></span>
 			  </button>
 			  <ul class="dropdown-menu">
 			    <li>

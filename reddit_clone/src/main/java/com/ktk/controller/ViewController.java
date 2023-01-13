@@ -20,6 +20,7 @@ import com.ktk.domain.dto.PostRequest;
 import com.ktk.domain.dto.PostResponse;
 import com.ktk.domain.dto.RegisterRequest;
 import com.ktk.domain.dto.SubredditDto;
+import com.ktk.domain.entity.Member;
 import com.ktk.service.CommentService;
 import com.ktk.service.JwtAuthService;
 import com.ktk.service.PostService;
@@ -37,7 +38,7 @@ public class ViewController {
 	private final SubredditService subredditService;
 	
 	@GetMapping("/")
-	public ModelAndView main(@AuthenticationPrincipal User user, ModelAndView mav) {
+	public ModelAndView main(ModelAndView mav) {
 		
 		mav.setViewName("index");
 		
@@ -46,15 +47,15 @@ public class ViewController {
 		
 		mav.addObject("posts", posts);
 		mav.addObject("subreddits", subreddits);
-		mav.addObject("user", user);
+		mav.addObject("user", authService.getCurrentMember());
 		return mav;
 	}
 	
 	@GetMapping("/signup")
-	public ModelAndView signup(@AuthenticationPrincipal User user, ModelAndView mav) {
+	public ModelAndView signup(ModelAndView mav) {
 		String viewName = "";
 		
-		if(user == null) {
+		if(authService.getCurrentMember() == null) {
 			viewName = "signup";
 		}else {
 			viewName = "redirect:/";
@@ -73,10 +74,10 @@ public class ViewController {
 	}
 	
 	@GetMapping("/login")
-	public ModelAndView login(@AuthenticationPrincipal User user, @RequestParam(required = false) String error, ModelAndView mav) {
+	public ModelAndView login(@RequestParam(required = false) String error, ModelAndView mav) {
 		String viewName = "";
 		
-		if(user == null) {
+		if(authService.getCurrentMember() == null) {
 			viewName = "login";
 			mav.addObject("error", error);
 		}else {
@@ -88,13 +89,23 @@ public class ViewController {
 	}
 	
 	@GetMapping("/createSubreddit")
-	public ModelAndView createSubreddit(ModelAndView mav) {
+	public ModelAndView createSubredditPage(ModelAndView mav) {
 		mav.setViewName("createSubreddit");
+		return mav;
+	}
+	
+	@PostMapping("/createSubreddit")
+	public ModelAndView createSubreddit(@ModelAttribute SubredditDto subredditDto, ModelAndView mav) {
+		subredditService.save(subredditDto);
+		mav.setViewName("redirect:/");
 		return mav;
 	}
 	
 	@GetMapping("/listSubreddit")
 	public ModelAndView listSubreddit(ModelAndView mav) {
+		List<SubredditDto> subreddits = subredditService.getAll();
+		mav.addObject("subreddits", subreddits);
+		
 		mav.setViewName("listSubreddit");
 		return mav;
 	}
@@ -119,18 +130,36 @@ public class ViewController {
 	
 	@GetMapping("/detailPost/{postId}")
 	public ModelAndView detailPost(@PathVariable Long postId, ModelAndView mav) {
-		PostResponse post = postService.getPostById(postId);
-		List<CommentDto> comments = commentService.getAllByPostId(postId);
-		
-		mav.addObject("post", post);
-		mav.addObject("comments", comments);
+		mav.addObject("post", postService.getPostById(postId));
+		mav.addObject("comments", commentService.getAllByPostId(postId));
+		mav.addObject("subreddits", subredditService.getAll());
 		
 		mav.setViewName("detailPost");
 		return mav;
 	}
 	
-	@GetMapping("/userProfile")
-	public ModelAndView userProfile(ModelAndView mav) {
+	@PostMapping("/comment")
+	public ModelAndView createComment(ModelAndView mav) {
+		
+		
+		
+		
+		return mav;
+	}
+	
+	@GetMapping("/userProfile/{userId}")
+	public ModelAndView userProfile(@PathVariable Long userId, ModelAndView mav) {
+		
+		Member member = authService.getMemberById(userId); 
+		
+		List<PostResponse> posts = postService.getPostsByUsername(member.getName());
+		List<CommentDto> comments = commentService.getAllByUserName(member.getName());
+		
+		mav.addObject("user", authService.getCurrentMember());
+		mav.addObject("member", member);
+		mav.addObject("posts", posts);
+		mav.addObject("comments", comments);
+		
 		mav.setViewName("userProfile");
 		return mav;
 	}

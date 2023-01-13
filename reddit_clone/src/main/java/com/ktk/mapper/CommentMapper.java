@@ -23,7 +23,9 @@ public interface CommentMapper {
 		@Mapping(target = "text", source = "commentDto.text"),
 		@Mapping(target = "createdDate", expression = "java(java.time.Instant.now())"),
 		@Mapping(target = "post", source = "post"),
-		@Mapping(target = "member", source = "member")
+		@Mapping(target = "member", source = "member"),
+		@Mapping(target = "groupId", ignore = true),
+		@Mapping(target = "layer", source = "member")
 	})
 	Comment map(CommentDto commentDto, Post post, Member member);
 }

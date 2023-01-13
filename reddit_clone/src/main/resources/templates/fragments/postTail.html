@@ -18,12 +18,11 @@
 	    <div class="col-md-11">
 	        <span class="subreddit-info">
 	            <span class="subreddit-text"><a class="posturl" href="#" th:text="${post.subredditName}">{{post.subredditName}}</a></span>
-	            <span> . Posted by <a class="username" href="/user/{{post.userName}}" th:text="${post.userName}">{{post.userName}}</a></span>
+	            <span> . Posted by <a class="username" th:href="@{'/userProfile/' + ${post.userId}}" th:text="${post.userName}">{{post.userName}}</a></span>
 	            <span th:text="${post.duration}"> . {{post.duration}}</span>
 	        </span>
 	        <hr />
 	        <div class="post-title">
-	            <!-- <a class="postname" th:href="@{${post.url}}" th:text="${post.postName}">{{post.postName}}</a> -->
 	            <span class="postname" th:text="${post.postName}"></span>
 	        </div>
 	        <div>

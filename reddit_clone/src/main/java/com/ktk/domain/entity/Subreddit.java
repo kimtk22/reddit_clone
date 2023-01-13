@@ -26,7 +26,7 @@ public class Subreddit {
     
     private String description;
     
-    @OneToMany(fetch = LAZY)
+    @OneToMany(mappedBy = "postId", fetch = LAZY)
     private List<Post> posts;
     
     private Instant createdDate;

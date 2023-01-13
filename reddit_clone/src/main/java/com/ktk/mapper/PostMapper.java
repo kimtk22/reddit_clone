@@ -39,6 +39,7 @@ public abstract class PostMapper {
     @Mapping(target = "postName", source = "postName")
 	@Mapping(target = "url", source = "url")
     @Mapping(target = "description", source = "description")
+	@Mapping(target = "userId", source = "member.userId")
 	@Mapping(target = "userName", source = "member.name")
     @Mapping(target = "subredditName", source = "subreddit.name")
 //	@Mapping(target = "voteCount", source = "voteCount")
