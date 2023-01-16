@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ktk.domain.dto.CommentDto;
 import com.ktk.domain.entity.Comment;
@@ -26,23 +27,29 @@ public class CommentService {
 	private final MemberRepository memberRepository;
 	private final CommentRepository commentRepository;
 	
-	public List<CommentDto> getAllByPostId(Long postId){
+	public List<Comment> getAllByPostId(Long postId){
 		Post post = postRepository.findById(postId).orElseThrow(() -> new RedditException("Not Found Post with postId - " + postId));
-		return commentRepository.findAllByPost(post).stream()
-													.map(commentMapper::mapToDto)
-													.collect(Collectors.toList());
+		List<Comment> comments = commentRepository.findALLByPostOrderByCreatedDateDesc(post);
+		return comments;
+//		return commentRepository.findALLByPostOrderByCreatedDateDesc(post).stream()
+//													.map(commentMapper::toDto)
+//													.collect(Collectors.toList());
 	}
 	
 	public List<CommentDto> getAllByUserName(String userName){
 		Member member = memberRepository.findByName(userName).orElseThrow(() -> new RedditException("Not Found User with username - " + userName));
 		return commentRepository.findAllByMember(member).stream()
-													.map(commentMapper::mapToDto)
+													.map(commentMapper::toDto)
 													.collect(Collectors.toList());
 	}
 	
+	@Transactional
 	public void createComment(CommentDto commentDto) {
-		Post post = postRepository.findById(commentDto.getPostId()).orElseThrow(() -> new RedditException("Not Found Post with postId - " + commentDto.getPostId()));
-		Comment comment = commentMapper.map(commentDto, post, authService.getCurrentMember());
-		commentRepository.save(comment);
+		Post post = postRepository.findById(commentDto.getPostId())
+									.orElseThrow(() -> new RedditException("Not Found Post with postId - " + commentDto.getPostId()));
+		
+		Comment comment = commentMapper.toEntity(commentDto, post, authService.getCurrentMember());
+		comment = commentRepository.save(comment);
+		
 	}
 }

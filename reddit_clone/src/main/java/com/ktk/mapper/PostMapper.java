@@ -42,7 +42,6 @@ public abstract class PostMapper {
 	@Mapping(target = "userId", source = "member.userId")
 	@Mapping(target = "userName", source = "member.name")
     @Mapping(target = "subredditName", source = "subreddit.name")
-//	@Mapping(target = "voteCount", source = "voteCount")
 	@Mapping(target = "voteCount", expression = "java(voteCount(post))")
 	@Mapping(target = "commentCount", expression = "java(commentCount(post))")
 	@Mapping(target = "duration", expression = "java(getDuration(post))")

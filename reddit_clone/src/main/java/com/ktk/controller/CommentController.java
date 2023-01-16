@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ktk.domain.dto.CommentDto;
+import com.ktk.domain.entity.Comment;
 import com.ktk.service.CommentService;
 
 import lombok.AllArgsConstructor;
@@ -24,8 +25,8 @@ public class CommentController {
 	private final CommentService commentService;
 	
 	@GetMapping("/by-postId/{postId}")
-	public ResponseEntity<List<CommentDto>> getAllByPostId(@PathVariable Long postId){
-		List<CommentDto> comments = commentService.getAllByPostId(postId);
+	public ResponseEntity<List<Comment>> getAllByPostId(@PathVariable Long postId){
+		List<Comment> comments = commentService.getAllByPostId(postId);
 		return ResponseEntity.ok().body(comments);
 	}
 	

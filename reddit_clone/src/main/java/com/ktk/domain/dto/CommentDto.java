@@ -11,7 +11,7 @@ public class CommentDto {
 	private Long id;
 	private Long postId;
 	private String text;
-	private Instant createdDate;
+	private String duration;
 	private String username;
 	private Long groupId;
 	private CommentLayer layer;

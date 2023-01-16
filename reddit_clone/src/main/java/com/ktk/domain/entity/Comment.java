@@ -6,7 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.Instant;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -22,10 +26,6 @@ public class Comment {
     private Long id;
     private String text;
     private Instant createdDate;
-    private Long groupId;
-    
-    @Enumerated(value = EnumType.STRING)
-    private CommentLayer layer;
     
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "postId", referencedColumnName = "postId")

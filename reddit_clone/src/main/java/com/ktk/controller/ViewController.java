@@ -133,17 +133,17 @@ public class ViewController {
 		mav.addObject("post", postService.getPostById(postId));
 		mav.addObject("comments", commentService.getAllByPostId(postId));
 		mav.addObject("subreddits", subredditService.getAll());
+		mav.addObject("user", authService.getCurrentMember());
 		
 		mav.setViewName("detailPost");
 		return mav;
 	}
 	
 	@PostMapping("/comment")
-	public ModelAndView createComment(ModelAndView mav) {
+	public ModelAndView createComment(@ModelAttribute CommentDto commentDto, ModelAndView mav) {
+		commentService.createComment(commentDto);
 		
-		
-		
-		
+		mav.setViewName("redirect:/detailPost/" + commentDto.getPostId());
 		return mav;
 	}
 	
