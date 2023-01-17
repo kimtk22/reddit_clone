@@ -1,24 +1,32 @@
-<th:block th:fragment="comment(comment)">
-	<div class="d-flex mt-4 comment" >
-	    <div class="flex-shrink-0">
-	    	<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
-	    </div>
-	    <div class="ms-3">
-	        <div class="fw-bold">
-	        	<a th:href="@{'/userProfile/' + ${comment.username}}" th:text="${comment.username}">{{comment.userName}}</a>
-	        </div>
-	        <div>
-	          <p th:text="${comment.duration}">{{comment.duration}}</p>
-	        </div>
-	        <span th:text="${comment.text}">And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.</span>
-	    </div>
-	</div>
-	<form class="comment-form" method="post" action="/comment" style="display: none">
-	  <input type="hidden" name="postId" th:value="${post.id}" />
-	  <input type="hidden" name="layer" th:value="PARENT" />
-	  <div class="form-group">
-	    <textarea class="form-control" name="text" placeholder="Your Thoughts?"></textarea>
-	  </div>
-	  <button type="submit" class="login float-right">Comment</button>
-	</form>
-</th:block>
+<html xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="comment(comment)">
+		<div class="d-flex mt-4 comment" >
+		    <div class="flex-shrink-0">
+		    	<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
+		    </div>
+		    <div class="ms-3" style="width : 100%">
+		        <div class="fw-bold">
+		        	<a th:href="@{'/userProfile/' + ${comment.username}}" th:text="${comment.username}">{{comment.userName}}</a>
+		        </div>
+		        <div>
+		          <p th:text="${comment.duration}">{{comment.duration}}</p>
+		        </div>
+		        <p th:text="${comment.text}"></p>
+		        <div class="btn-group" role="group" aria-label="Basic example">
+				  <button type="button" class="btn reply-button">reply</button>
+				</div>
+		        <th:block th:if="${comment.subComments}" th:each="subcomment : ${comment.subComments}">
+		        	<th:block th:replace="/fragments/comment::comment(${subcomment})"></th:block>
+		        </th:block>
+		    </div>
+		</div>
+		<form class="comment-form" method="post" action="/comment" style="display: none">
+		  <input type="hidden" name="postId" th:value="${post.id}" />
+		  <input type="hidden" name="parentId" th:value="${comment.id}" />
+		  <div class="form-group">
+		    <textarea class="form-control" name="text" placeholder="Your Thoughts?"></textarea>
+		  </div>
+		  <button type="submit" class="login float-right">Comment</button>
+		</form>
+	</th:block>
+</html>

@@ -27,13 +27,11 @@ public class CommentService {
 	private final MemberRepository memberRepository;
 	private final CommentRepository commentRepository;
 	
-	public List<Comment> getAllByPostId(Long postId){
+	public List<CommentDto> getAllByPostId(Long postId){
 		Post post = postRepository.findById(postId).orElseThrow(() -> new RedditException("Not Found Post with postId - " + postId));
-		List<Comment> comments = commentRepository.findALLByPostOrderByCreatedDateDesc(post);
-		return comments;
-//		return commentRepository.findALLByPostOrderByCreatedDateDesc(post).stream()
-//													.map(commentMapper::toDto)
-//													.collect(Collectors.toList());
+		return commentRepository.findAllByPost(post).stream()
+								.map(commentMapper::toDto)
+								.collect(Collectors.toList());
 	}
 	
 	public List<CommentDto> getAllByUserName(String userName){

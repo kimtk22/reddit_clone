@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.Instant;
 import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
@@ -27,11 +24,18 @@ public class Comment {
     private String text;
     private Instant createdDate;
     
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "postId", referencedColumnName = "postId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "postId")
     private Post post;
     
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
     private Member member;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    private Comment parent;
+    
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    private List<Comment> subComments;
 }
