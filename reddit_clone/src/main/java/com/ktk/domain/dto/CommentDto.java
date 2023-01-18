@@ -10,6 +10,7 @@ public class CommentDto {
 	private Long id;
 	private String text;
 	private String duration;
+	private int likes;
 	private Long postId;
 	private String username;
 	private Long parentId;

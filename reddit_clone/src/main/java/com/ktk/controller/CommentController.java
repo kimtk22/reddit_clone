@@ -36,10 +36,17 @@ public class CommentController {
 		return ResponseEntity.ok().body(comments);
 	}
 	
-	@PostMapping()
+	@PostMapping
 	public ResponseEntity<Void> createComment(@RequestBody CommentDto commentDto){
 		commentService.createComment(commentDto);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+	
+	@PostMapping("/likes")
+	public ResponseEntity<CommentDto> updateLikes(@RequestBody CommentDto commentDto){
+		return ResponseEntity
+					.status(HttpStatus.OK)
+					.body(commentService.updateLikes(commentDto));
 	}
 	
 }

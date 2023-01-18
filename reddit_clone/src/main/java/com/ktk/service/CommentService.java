@@ -50,4 +50,13 @@ public class CommentService {
 		comment = commentRepository.save(comment);
 		
 	}
+	
+	public CommentDto updateLikes(CommentDto commentDto) {
+		 Comment comment = commentRepository.findById(commentDto.getId()).orElseThrow(() -> new RedditException("Not Found Comment with commentId - " + commentDto.getId()));
+		 comment.setLikes(comment.getLikes() + commentDto.getLikes());
+		 
+		 commentRepository.save(comment);
+		 
+		 return commentMapper.toDto(comment);
+	}
 }

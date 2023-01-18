@@ -4,14 +4,15 @@
 	<th:block th:replace="fragments/commonHead::commonHead"></th:block>
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="/css/signup.css">
+	<script type="text/javascript" src="/js/signup.js"></script>
 </head>
 <body>
 	<div th:replace="fragments/header::commonHeader(${null})"></div>
 	<div class="register-section">
 	    <div class="row justify-content-center">
 	        <div class="col-md-3"></div>
-	        <div class="col-md-6">
-	            <div class="card">
+	        <div class="col-md-3">
+	            <!-- <div class="card">
 	                <div class="card-header" style="text-align: center">
 	                    <h4>Register</h4>
 	                </div>
@@ -25,21 +26,18 @@
 	                                    autofocus>
 	                            </div>
 	                        </div>
-	
 	                        <div class="form-group row">
 	                            <label class="col-md-4 col-form-label text-md-right">User Name</label>
 	                            <div class="col-md-6">
 	                                <input type="text" class="form-control" name="username" required autofocus>
 	                            </div>
 	                        </div>
-	
 	                        <div class="form-group row">
 	                            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 	                            <div class="col-md-6">
 	                                <input type="password" id="password" class="form-control" name="password" required>
 	                            </div>
 	                        </div>
-	
 	                        <span class="col-md-6 offset-md-4">
 	                            <button type="submit" class="sign-up">
 	                                Sign Up
@@ -48,7 +46,36 @@
 	                        </span>
 	                    </form>
 	                </div>
-	            </div>
+	            </div> -->
+	            <form>
+				    <h1 class="mb-3 fw-normal text-center">Sign up</h1>
+				    <div class="form-floating mt-1">
+				      <input type="email" required class="form-control " id="email">
+				      <label for="email">Email address</label>
+				      <div id="emailFeedback" class="invalid-feedback">
+				        Email invalid.
+				      </div>
+				    </div>
+				    <div class="form-floating mt-1">
+				      <input type="password" class="form-control " id="password">
+				      <label for="password">Password</label>
+				      <div id="passwordFeedback" class="invalid-feedback">
+				        Please invalid.
+				      </div>
+				    </div>
+				    <div class="form-floating mt-1">
+				      <input type="password" class="form-control " id="passwordComform">
+				      <label for="password-comform">Password Comform</label>
+				      <div id="passwordComformFeedback" class="invalid-feedback">
+				      </div>
+				    </div>
+				    <div class="checkbox mb-3">
+				      <label>
+				        <input type="checkbox" value="remember-me"> Remember me
+				      </label>
+				    </div>
+				    <button class="w-100 btn btn-lg btn-primary" id="signup" type="submit">Sign in</button>
+				  </form>
 	        </div>
 	        <div class="col-md-3"></div>
 	    </div>

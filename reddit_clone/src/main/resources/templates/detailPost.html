@@ -52,10 +52,12 @@
 	              <button type="submit" class="login float-right">Comment</button>
 	            </form>
 	          </div>
-	          <div style="margin-top: 60px;">
+	          <div class="mt-5">
 	          	 <div th:each="comment : ${comments}">
-	          	 	<th:block th:replace="/fragments/comment::comment(${comment})"></th:block>
+	          	 	<!-- <th:block th:replace="/fragments/comment::comment(${comment})"></th:block> -->
+	          	 	<th:block th:replace="/fragments/comment2::comment2(${comment})"></th:block>
 	          	 </div>
+	          	 
 	          </div>
 	        </div>
 	      </div>

@@ -21,7 +21,7 @@
 			  </button>
 			  <ul class="dropdown-menu">
 			    <li>
-			    	<a class="dropdown-item" href="#">Profile</a>
+			    	<a class="dropdown-item" th:href="@{'/userProfile/' + ${user.userId}}">Profile</a>
 		    	</li>
 			    <li>
 			    	<form method="post" action="/logout">

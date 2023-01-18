@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class Comment {
     private Long id;
     private String text;
     private Instant createdDate;
+    
+    @ColumnDefault("0")
+    private int likes;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId")

@@ -1,5 +1,4 @@
 $(function(){
-	
 	$(".upVote").on('click', function(){
 		var postId = $(this).data("id");
 		var voteCountTag = $(this).next();

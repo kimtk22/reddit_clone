@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="comment2(comment)">
+		<div class="d-flex flex-row p-3 pe-0"> 
+			<img src="/image/default-user.png" width="40" height="40" class="rounded-circle me-3">
+			<div class="w-100">
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="d-flex flex-row align-items-center">
+						<span class="me-2" th:text="${comment.username}">User name</span>
+						<!-- <small class="badge bg-info me-2">Top Comment</small> -->
+						<small th:text="${comment.duration}">duration</small>
+					</div>
+				</div> 
+				<p class="fs-6 mb-0" th:text="${comment.text}">내용</p>
+				<div class="d-flex flex-row mt-1" style="font-size: 12px"> 
+					<a class="text-danger text-decoration-none likes" th:attr="data-comment-id=${comment.id}" href="javascript:none;">
+						<i class="bi bi-heart-fill"></i>
+						<span th:text="${comment.likes}">0</span>
+					</a>
+					<a class="ms-3 text-reset text-decoration-none reply-button" href="javascript:none;">
+						<i class="bi bi-reply"></i>
+						Reply
+					</a>
+				</div>
+				<form class="comment-form mt-2" method="post" action="/comment" style="display: none;">
+					<input type="hidden" name="postId" th:value="${post.id}" />
+		  			<input type="hidden" name="parentId" th:value="${comment.id}" />
+					<div class="form-group">
+						<textarea class="form-control" name="text" placeholder="Your Thoughts?" ></textarea>
+					</div>
+					<button type="submit" class="login float-right">Comment</button>
+				</form>
+				<th:block th:if="${comment.subComments}" th:each="subcomment : ${comment.subComments}">
+		        	<th:block th:replace="/fragments/comment2::comment2(${subcomment})"></th:block>
+		        </th:block>
+	        	
+			</div>
+		</div>
+	</th:block>
+</html>
