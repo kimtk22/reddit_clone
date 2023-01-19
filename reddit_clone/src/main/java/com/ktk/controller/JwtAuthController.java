@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -64,5 +65,10 @@ public class JwtAuthController {
     public ResponseEntity<String> logout(@RequestBody RefreshTokenRequest refreshTokenRequest) {
         refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
         return ResponseEntity.status(HttpStatus.OK).body("Refresh Token Deleted Successfully!!");
+    }
+    
+    @PostMapping("/email-validate")
+    public ResponseEntity<Map<String, Object>> emailValidate(@RequestBody Map<String, Object> body) {
+        return ResponseEntity.status(HttpStatus.OK).body(authService.emailValidate(body));
     }
 }

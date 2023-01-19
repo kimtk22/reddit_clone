@@ -2,6 +2,7 @@ package com.ktk.service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -81,6 +82,12 @@ public class JwtAuthService {
 //		String token = generateVerificationToken(member);
 //		String message = mailContentBuilder.build("Thank you for signing up to Spring Reddit, please click on the below url to activate your account : " + Constans.ACTIVATION_EMAIL + "/" + token);
 //		mailService.sendMail(new NotificationEmail("Please Activate your account", member.getEmail(), message));
+	}
+	
+	public Map<String, Object> emailValidate(Map<String, Object> requestBody){
+		boolean result = isExistEmail((String) requestBody.get("email"));
+		requestBody.put("result", !result);
+		return requestBody;
 	}
 	
 	private boolean isExistEmail(String email) {

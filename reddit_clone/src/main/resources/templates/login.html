@@ -10,38 +10,34 @@
 	<div class="login-section">
 	    <div class="row justify-content-center">
 	        <div class="col-md-3"></div>
-	        <div class="col-md-6">
-	            <div class="card">
-	                <div class="card-header" style="text-align: center"><h4>Login</h4></div>
-	                <div class="card-body">
-	                	<div class="alert alert-danger" role="alert" th:if="${error != null}">
-						  Login Failed. Please check your credentials and try again.
-						</div>
-	                    <form method="post" action="/login">
-	                        <div class="form-group row">
-	                            <label for="user_name" class="col-md-4 col-form-label text-md-right">Email</label>
-	                            <div class="col-md-6">
-	                                <input type="email" id="user_name" class="form-control" name="email" autofocus>
-	                            </div>
-	                        </div>
-	
-	                        <div class="form-group row">
-	                            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-	                            <div class="col-md-6">
-	                                <input type="password" id="password" class="form-control" name="password">
-	                            </div>
-	                        </div>
-	                        <div class="form-group row">
-		                        <span class="col-md-6 offset-md-4">
-		                            <button type="submit" class="login">
-		                                Login
-		                            </button>
-		                            <span style="padding-left: 15px">New to SpringReddit? <a href="/signup">SIGN UP</a></span>
-		                        </span>
-	                        </div>
-	                    </form>
-	                </div>
-	            </div>
+	        <div class="col-md-3">
+	            <form method="post" action="/login">
+				    <h1 class="mb-3 fw-normal text-center">Login</h1>
+				    <div class="alert alert-danger" role="alert" th:if="${error != null}">
+					  Login Failed. Please check your credentials and try again.
+					</div>
+				    <div class="form-floating mt-1">
+				      <input type="email" required class="form-control " id="email" name="email">
+				      <label for="email">Email address</label>
+				      <div id="emailFeedback" class="invalid-feedback">
+				        Email invalid.
+				      </div>
+				    </div>
+				    <div class="form-floating mt-1">
+				      <input type="password" class="form-control " id="password" name="password">
+				      <label for="password">Password</label>
+				      <div id="passwordFeedback" class="invalid-feedback">
+				        Please invalid.
+				      </div>
+				    </div>
+				    <button class="w-100 btn btn-lg btn-primary mt-3" id="signup" type="submit">Sign in</button>
+				    <div class="checkbox mt-1">
+                      <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                      </label>
+				    </div>
+				    <span class="mt-1">New to SpringReddit? <a href="/signup">SIGN UP</a></span>
+				  </form>
 	        </div>
 	        <div class="col-md-3"></div>
 	    </div>

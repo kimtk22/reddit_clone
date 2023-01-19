@@ -21,6 +21,7 @@ import com.ktk.domain.dto.PostResponse;
 import com.ktk.domain.dto.RegisterRequest;
 import com.ktk.domain.dto.SubredditDto;
 import com.ktk.domain.entity.Member;
+import com.ktk.exception.RedditException;
 import com.ktk.service.CommentService;
 import com.ktk.service.JwtAuthService;
 import com.ktk.service.PostService;
@@ -52,11 +53,12 @@ public class ViewController {
 	}
 	
 	@GetMapping("/signup")
-	public ModelAndView signup(ModelAndView mav) {
+	public ModelAndView signup(@RequestParam(defaultValue = "") String error, ModelAndView mav) {
 		String viewName = "";
 		
 		if(authService.getCurrentMember() == null) {
 			viewName = "signup";
+			mav.addObject("error", error);
 		}else {
 			viewName = "redirect:/";
 		}
@@ -68,8 +70,13 @@ public class ViewController {
 	
 	@PostMapping("/signup")
 	public ModelAndView signup(@ModelAttribute RegisterRequest request, ModelAndView mav) {
-		authService.singup(request);
-		mav.setViewName("redirect:/login");
+		try {
+			authService.singup(request);
+			mav.setViewName("redirect:/login");
+		}catch(RedditException ex) {
+			mav.setViewName("redirect:/signup?error=duplicate");
+		}
+		
 		return mav;
 	}
 	
