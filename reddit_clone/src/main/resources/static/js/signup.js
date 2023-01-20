@@ -1,18 +1,19 @@
 $(() => {
-	
 	const authService = new AuthService();
-	
-	console.log(authService);
-	
 	// 회원가입 유효성 검사.
 	$('#signup').on('click', () => {
-		if(!authService.emailValidate()){
+		let email = $('#email').val();
+		let userName = $('#userName').val();
+		let password = $('#password').val();
+		let passwordComfirm = $('#passwordComfirm').val();
+		
+		if(!authService.emailValidate(email)){
 			$('#email').addClass('is-invalid').focus();
 			return false;
-		}else if(!userNameValidate()){
+		}else if(!authService.userNameValidate(userName)){
 			$('#userName').addClass('is-invalid').focus();
 			return false;
-		}else if(!passwordValidate()){
+		}else if(!authService.passwordValidate(password, passwordComfirm)){
 			$('#passwordComfirm').addClass('is-invalid');
 			$('#password').addClass('is-invalid').focus();
 			return false;
@@ -27,23 +28,24 @@ $(() => {
 				$this.removeClass('is-invalid');
 			}
 		},
-		'blur' : (e) => {
+		'blur' : async (e) => {
+			let $this = $(e.target);
+			
+			
 			// 1. 이메일 유효성 검사
-			if(emailValidate() === false){
+			if(authService.emailValidate($this.val()) === false){
 				$('#emailFeedback').text('Email invalid.')
-				$(e.target).addClass('is-invalid');
+				$this.addClass('is-invalid');
 				return;
 			}
 			
 			// 2. 중복 체크 (Requerst)
-			emailDuplicateValidate($(e.target).val())
-				.then((result) => {
-					if(result === false){
-						$('#emailFeedback').text('Duplicate email.')
-						$(e.target).addClass('is-invalid');
-						return;
-					}
-				});
+			let result = await authService.emailDuplicateValidate($this.val());
+			if(result === false){
+				$('#emailFeedback').text('Duplicate email.')
+				$this.addClass('is-invalid');
+				return;
+			}
 		}
 	});
 	
@@ -72,41 +74,3 @@ $(() => {
 		}
 	});
 });
-
-//let emailValidate = () => {
-//	const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-//	let email = $('#email').val();
-//	
-//	return emailRegex.test(email);
-//};
-//
-//let userNameValidate = () => {
-//	let userName = $('#userName').val();
-//	return userName !== '';
-//};
-//
-//let passwordValidate = () => {
-//	let pw = $('#password').val();
-//	let pwComfirm = $('#passwordComfirm').val();
-//	
-//	console.log('pw', pw);
-//	console.log('pwComfirm', pwComfirm);
-//	
-//	return pw === pwComfirm;	
-//};
-//
-//let emailDuplicateValidate = async (email) => {
-//	let body = {"email" : email}
-//	let resInit ={
-//		method : "post",
-//		headers : {
-//			"Content-Type" : "application/json"
-//		},
-//		body : JSON.stringify(body)
-//	}
-//	
-//	let response = await fetch('http://localhost:8080/api/auth/email-validate', resInit);
-//	response = await response.json();
-//	 
-//	return response.result; 
-//};

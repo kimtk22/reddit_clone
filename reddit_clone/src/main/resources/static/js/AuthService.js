@@ -1,8 +1,8 @@
 class AuthService{
 	
-	construct(){
+	constructor(){
 		this.url = 'http://localhost:8080';
-		this.emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g
+		this.emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 	}
 	
 	emailValidate(email){
@@ -20,7 +20,7 @@ class AuthService{
 	
 	async emailDuplicateValidate(email){
 		let body = {"email" : email}
-		let resInit ={
+		let resInit = {
 			method : "post",
 			headers : {
 				"Content-Type" : "application/json"
@@ -29,8 +29,10 @@ class AuthService{
 		}
 		
 		let response = await fetch(this.url + '/api/auth/email-validate', resInit);
+		console.log('response', response, typeof response);
 		let json = await response.json();
-		 
+		console.log('json', json, typeof json);
+		
 		return json.result; 
 	}
 }
